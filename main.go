@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime/debug"
 	"strings"
 	"text/tabwriter"
 
@@ -28,8 +29,22 @@ usage:
   agentdeck version                      print the version
 `
 
-// version is set by the release build; a source build reports "dev".
+// version is stamped into release builds with -ldflags. Binaries produced by
+// "go install" carry no ldflags, so fall back to the module version the Go
+// toolchain records in the build info.
 var version = "dev"
+
+func buildVersion() string {
+	if version != "dev" {
+		return version
+	}
+	if bi, ok := debug.ReadBuildInfo(); ok {
+		if v := bi.Main.Version; v != "" && v != "(devel)" {
+			return v
+		}
+	}
+	return version
+}
 
 func main() {
 	args := os.Args[1:]
@@ -42,7 +57,7 @@ func main() {
 		fmt.Print(usage)
 		return
 	case args[0] == "version", args[0] == "--version", args[0] == "-v":
-		fmt.Println("agentdeck", version)
+		fmt.Println("agentdeck", buildVersion())
 		return
 	case args[0] == "agents":
 		for _, a := range agent.All() {

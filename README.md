@@ -37,7 +37,7 @@ brew install tmux
 `arm64` for Apple Silicon, `amd64` for Intel:
 
 ```sh
-VERSION=0.1.0
+VERSION=0.1.1
 ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo amd64)
 curl -fsSL "https://github.com/visualabsai/agentdeck/releases/download/v${VERSION}/agentdeck_${VERSION}_darwin_${ARCH}.tar.gz" \
   | tar xz agentdeck
