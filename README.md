@@ -27,12 +27,52 @@ Status glyphs: `●` working · `◐` waiting for you · `○` idle at prompt ·
 
 ## Install
 
+agentdeck needs tmux at runtime:
+
 ```sh
-brew install tmux            # required
-go install github.com/visualabsai/agentdeck@latest
-# or from source:
-go build -o agentdeck . && mv agentdeck /usr/local/bin/
+brew install tmux
 ```
+
+**Download a binary** (no Go toolchain needed). Pick the build for your Mac —
+`arm64` for Apple Silicon, `amd64` for Intel:
+
+```sh
+VERSION=0.1.0
+ARCH=$([ "$(uname -m)" = "arm64" ] && echo arm64 || echo amd64)
+curl -fsSL "https://github.com/visualabsai/agentdeck/releases/download/v${VERSION}/agentdeck_${VERSION}_darwin_${ARCH}.tar.gz" \
+  | tar xz agentdeck
+sudo mv agentdeck /usr/local/bin/
+```
+
+macOS quarantines downloaded binaries, so clear the flag the first time:
+
+```sh
+xattr -d com.apple.quarantine /usr/local/bin/agentdeck 2>/dev/null || true
+agentdeck version
+```
+
+**With Go** (1.22+):
+
+```sh
+go install github.com/visualabsai/agentdeck@latest
+```
+
+That drops the binary in `$(go env GOPATH)/bin`, which is often not on `PATH`.
+Add it once:
+
+```sh
+echo 'export PATH="$HOME/go/bin:$PATH"' >> ~/.zshrc && exec zsh
+```
+
+**From source:**
+
+```sh
+git clone https://github.com/visualabsai/agentdeck.git
+cd agentdeck && go build -o agentdeck . && sudo mv agentdeck /usr/local/bin/
+```
+
+Linux works the same way — swap `darwin` for `linux` in the download URL and use
+your package manager for tmux.
 
 ## Use
 

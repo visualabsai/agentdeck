@@ -25,7 +25,11 @@ usage:
   agentdeck send <name> <text>           type text into a session
   agentdeck kill <name>                  kill a session
   agentdeck agents                       list known agents
+  agentdeck version                      print the version
 `
+
+// version is set by the release build; a source build reports "dev".
+var version = "dev"
 
 func main() {
 	args := os.Args[1:]
@@ -36,6 +40,9 @@ func main() {
 		return
 	case args[0] == "-h", args[0] == "--help", args[0] == "help":
 		fmt.Print(usage)
+		return
+	case args[0] == "version", args[0] == "--version", args[0] == "-v":
+		fmt.Println("agentdeck", version)
 		return
 	case args[0] == "agents":
 		for _, a := range agent.All() {
