@@ -37,3 +37,32 @@ changelog:
 release:
   footer: |
     agentdeck needs tmux at runtime: `brew install tmux`.
+
+homebrew_casks:
+  - name: agentdeck
+    binaries:
+      - agentdeck
+    directory: Casks
+    homepage: https://github.com/visualabsai/agentdeck
+    description: One dashboard for every CLI coding agent on your machine
+    license: MIT
+    dependencies:
+      - formula: tmux
+    url:
+      verified: github.com/visualabsai/agentdeck
+    repository:
+      owner: visualabsai
+      name: homebrew-tap
+      branch: main
+      token: '{{ .Env.HOMEBREW_TAP_TOKEN }}'
+    commit_author:
+      name: goreleaser
+      email: noreply@github.com
+    # The release binaries are not code-signed, so macOS would refuse to run
+    # them straight out of the download. Strip the quarantine flag on install.
+    hooks:
+      post:
+        install: |
+          if system_command("/usr/bin/xattr", args: ["-h"]).exit_status == 0
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/agentdeck"]
+          end

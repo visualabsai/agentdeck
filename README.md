@@ -27,7 +27,13 @@ Status glyphs: `●` working · `◐` waiting for you · `○` idle at prompt ·
 
 ## Install
 
-agentdeck needs tmux at runtime:
+**Homebrew** (macOS, easiest — pulls in tmux for you):
+
+```sh
+brew install visualabsai/tap/agentdeck
+```
+
+Every other route needs tmux installed separately:
 
 ```sh
 brew install tmux

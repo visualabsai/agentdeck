@@ -25,3 +25,6 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Pushing the cask to visualabsai/homebrew-tap needs a token that can
+          # write to that repo; the built-in GITHUB_TOKEN is scoped to this one.
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}

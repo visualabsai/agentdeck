@@ -3,3 +3,6 @@
 
 # the original source drop this repo was assembled from
 /_files/
+
+# goreleaser build output
+/dist/
